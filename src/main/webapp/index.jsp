@@ -9,9 +9,39 @@
 <html>
 <head>
     <title>가제</title>
+    <style>
+        body{
+            margin: 0px;
+        }
+        .header{
+            height: 64px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fefefe;
+            border-bottom: 1px solid #cdcdcd;
+        }
+    </style>
 </head>
 <body>
-<h1>프로젝트 계획중</h1>
+<div class="header"> <%--헤더--%>
+    <div>
+        로고
+    </div>
+
+    <div>
+        중앙
+    </div>
+
+    <div>
+        <a href="/login"><button>로그인</button></a>
+        <a href="/signup"><button>회원가입</button></a>
+    </div>
+</div>
+
+<div> <%--메인--%>
+    메인 페이지
+</div>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.app.member.login;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,11 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/index")
-public class IndexServlet extends HttpServlet {
+@WebServlet("/login")
+public class LogInServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);
+
 
     }
 }
