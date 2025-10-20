@@ -1,5 +1,6 @@
 package com.example.app.util;
 
+import com.example.app.vo.LoginUser;
 import com.example.app.vo.Member;
 import org.apache.ibatis.session.SqlSession;
 
@@ -91,6 +92,14 @@ public class DatabaseUtil {
             case 504:
                 System.out.println("insertMember method is null");
                 mainError = "Member 객체가 null입니다.";
+                break;
+            case 505:
+                System.out.println("ID does not exist");
+                mainError = "존재하지 않는 아이디입니다";
+                break;
+            case 506:
+                System.out.println("PW does not match");
+                mainError = "잘못된 비밀번호입니다.";
                 break;
         }
         return mainError;
@@ -189,5 +198,31 @@ public class DatabaseUtil {
         }
     }
 
+
+    public static int login(String id, String pw) {
+        Member member = selectMemberById(id);
+        if (member == null) {
+            return 505;
+        } else if (!(member.getPw().equals(pw))) {
+            return 506;
+        } else {
+            return 1;
+        }
+    }
+
+    public static int insertLoginHistory(LoginUser user) {
+        int result = 0;
+        try {
+            SqlSession sqlSession = MyBatisUtil.build().openSession(true);
+
+            result = sqlSession.insert("mappers.LoginHistoryMapper.insertOne", user);
+            sqlSession.close();
+            return result;
+
+        } catch (Exception e) {
+            System.out.println("Error in inserting login history : " + e);
+            return result;
+        }
+    }
 
 }

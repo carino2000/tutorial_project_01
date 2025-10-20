@@ -14,13 +14,13 @@ import java.io.IOException;
 public class IndexServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        SqlSessionFactory factory = MyBatisUtil.build();
-        System.out.println(factory);
-
-
-
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        if(req.getSession().getAttribute("logonUser") == null){
+            req.setAttribute("auth", false);
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        }else{
+            req.setAttribute("auth", true);
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        }
 
     }
 }

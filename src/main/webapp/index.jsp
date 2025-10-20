@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%--
   Created by IntelliJ IDEA.
   User: USER
@@ -10,10 +11,11 @@
 <head>
     <title>가제</title>
     <style>
-        body{
+        body {
             margin: 0px;
         }
-        .header{
+
+        .header {
             height: 64px;
             display: flex;
             justify-content: space-between;
@@ -33,10 +35,25 @@
         중앙
     </div>
 
-    <div>
-        <a href="/login"><button>로그인</button></a>
-        <a href="/signup"><button>회원가입</button></a>
-    </div>
+    <c:choose>
+        <c:when test="${auth}">
+            <div>
+                <button>스크랩</button>
+                <button>알림</button>
+                <button>설정</button>
+                <br>
+                <button onclick="location.href='/logout'">로그아웃</button>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div>
+                <button onclick="location.href='/login'">로그인</button>
+                <button onclick="location.href='/signup'">회원가입</button>
+            </div>
+        </c:otherwise>
+    </c:choose>
+
+
 </div>
 
 <div> <%--메인--%>
