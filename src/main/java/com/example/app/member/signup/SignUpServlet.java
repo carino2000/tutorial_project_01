@@ -1,6 +1,7 @@
 package com.example.app.member.signup;
 
 import com.example.app.util.DatabaseUtil;
+import com.example.app.util.MyBatisUtil;
 import com.example.app.vo.Member;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -8,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.ibatis.session.SqlSession;
 
 import java.io.IOException;
 
@@ -30,8 +32,11 @@ public class SignUpServlet extends HttpServlet {
         int age = Integer.parseInt(req.getParameter("age"));
         String interest = req.getParameter("interest");
 
+
         Member m = new Member(id, pw, email, agree, name, nickname, age, interest);
-        int result = DatabaseUtil.insertMember(m);
+
+        int result = DatabaseUtil.insertMember(m); //위 과정으로 치환하면 데이터베이스 유틸 안만들어도 됌
+
         String mainError = "";
 
         if (result == 1) {
@@ -52,5 +57,7 @@ public class SignUpServlet extends HttpServlet {
             req.setAttribute("mainError", mainError);
             req.getRequestDispatcher("/member/signup-fail.jsp").forward(req, resp);
         }
+
+
     }
 }

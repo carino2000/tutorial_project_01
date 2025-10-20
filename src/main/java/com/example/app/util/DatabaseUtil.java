@@ -1,6 +1,7 @@
 package com.example.app.util;
 
 import com.example.app.vo.Member;
+import org.apache.ibatis.session.SqlSession;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,7 +22,7 @@ public class DatabaseUtil {
     }
 
     public static boolean isDuplicateNickName(String nickname) {
-        if (selectMemberById(nickname) != null) {
+        if (selectMemberByNickName(nickname) != null) {
             return true;
         } else {
             return false;
@@ -29,7 +30,7 @@ public class DatabaseUtil {
     }
 
     public static boolean isNotValidId(String id) {
-        if (id == null || id.length() < 4 || id.length() > 15) {
+        if (!(id.matches("[a-zA-Z0-9!@#$%^&*]{4,15}"))) {
             return true;
         } else {
             return false;
@@ -37,6 +38,14 @@ public class DatabaseUtil {
     }
 
     public static boolean isNotValidPw(String pw) {
+
+        if (!(pw.matches("(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}"))) {
+            return true;
+        } else {
+            return false;
+        }
+
+        /*
         if (pw == null || pw.length() < 6) {
             return true;
         }
@@ -57,9 +66,10 @@ public class DatabaseUtil {
         }
 
         return !(hasAlpha && hasDigit);
+         */
     }
 
-    public static String setErrMsg(int result){
+    public static String setErrMsg(int result) {
         String mainError = null;
         switch (result) {
             case 500:
@@ -72,11 +82,15 @@ public class DatabaseUtil {
                 break;
             case 502:
                 System.out.println("id is Not ValidId");
-                mainError = "아이디를 조건에 맞게 입력해주세요";
+                mainError = "아이디를 조건에 맞게 입력해주세요.";
                 break;
             case 503:
                 System.out.println("pw is Not ValidId");
-                mainError = "비밀번호를 조건에 맞게 입력해주세요.";
+                mainError = "비밀번호를 조건에 맞게 입력해주세요.\n(영문, 숫자, 특수문자를 포함한 6~15자)";
+                break;
+            case 504:
+                System.out.println("insertMember method is null");
+                mainError = "Member 객체가 null입니다.";
                 break;
         }
         return mainError;
@@ -86,10 +100,11 @@ public class DatabaseUtil {
     //insert into memberinfo(id, pw, email, agree, name, nickname, age, interest) values(?,?,?,?,?,?,?,?);
     public static int insertMember(Member member) {
         int result = 0;
+        if (member == null) {
+            return 504;
+        }
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn =
-                    DriverManager.getConnection("jdbc:mysql://database-2.clwoya2662ja.ap-northeast-2.rds.amazonaws.com:3306/community", "admin", "01023509231");
+            SqlSession sqlSession = MyBatisUtil.build().openSession(true);
 
             if (isDuplicateId(member.getId())) {
                 result = 500; //중복 아이디
@@ -100,20 +115,8 @@ public class DatabaseUtil {
             } else if (isNotValidPw(member.getPw())) {
                 result = 503; //비밀번호 조건 부적합
             } else {
-                String sql = "insert into memberinfo(id, pw, email, agree, name, nickname, age, interest) values(?,?,?,?,?,?,?,?)";
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ps.setObject(1, member.getId());
-                ps.setObject(2, member.getPw());
-                ps.setObject(3, member.getEmail());
-                ps.setObject(4, member.isAgree());
-                ps.setObject(5, member.getName());
-                ps.setObject(6, member.getNickname());
-                ps.setObject(7, member.getAge());
-                ps.setObject(8, member.getInterest());
-
-
-                result = ps.executeUpdate();
-                conn.close();
+                result = sqlSession.insert("mappers.MemberinfoMapper.insertOne", member);
+                sqlSession.close();
             }
             return result;
 
@@ -151,6 +154,7 @@ public class DatabaseUtil {
 
                 list.add(m);
             }
+            rs.close();
             conn.close();
             return list;
         } catch (Exception e) {
@@ -162,31 +166,10 @@ public class DatabaseUtil {
     //select * from memberinfo where id=?;
     public static Member selectMemberById(String id) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn =
-                    DriverManager.getConnection("jdbc:mysql://database-2.clwoya2662ja.ap-northeast-2.rds.amazonaws.com:3306/community", "admin", "01023509231");
-            String sql = "select * from memberinfo where id=?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setObject(1, id);
-
-            ResultSet rs = ps.executeQuery(); //읽기전용
-            Member m = null;
-
-            if (rs.next()) {
-                m = new Member();
-
-                m.setId(rs.getObject("id", String.class));
-                m.setPw(rs.getObject("pw", String.class));
-                m.setEmail(rs.getObject("email", String.class));
-                m.setAgree(rs.getObject("agree", Boolean.class));
-                m.setName(rs.getObject("name", String.class));
-                m.setNickname(rs.getObject("nickname", String.class));
-                m.setAge(rs.getObject("age", Integer.class));
-                m.setInterest(rs.getObject("interest", String.class));
-                m.setJoinAt(rs.getObject("joinAt", LocalDateTime.class));
-            }
-            conn.close();
-            return m;
+            SqlSession sqlSession = MyBatisUtil.build().openSession(true);
+            Member member = sqlSession.selectOne("mappers.MemberinfoMapper.selectById", id);
+            sqlSession.close();
+            return member;
         } catch (Exception e) {
             System.out.println("Error in select member by id : " + e);
             return null;
@@ -196,31 +179,10 @@ public class DatabaseUtil {
     //select * from memberinfo where nickname=?;
     public static Member selectMemberByNickName(String nickname) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn =
-                    DriverManager.getConnection("jdbc:mysql://database-2.clwoya2662ja.ap-northeast-2.rds.amazonaws.com:3306/community", "admin", "01023509231");
-            String sql = "select * from memberinfo where nickname=?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setObject(1, nickname);
-
-            ResultSet rs = ps.executeQuery(); //읽기전용
-
-            Member m = null;
-            if (rs.next()) {
-                m = new Member();
-
-                m.setId(rs.getObject("id", String.class));
-                m.setPw(rs.getObject("pw", String.class));
-                m.setEmail(rs.getObject("email", String.class));
-                m.setAgree(rs.getObject("agree", Boolean.class));
-                m.setName(rs.getObject("name", String.class));
-                m.setNickname(rs.getObject("nickname", String.class));
-                m.setAge(rs.getObject("age", Integer.class));
-                m.setInterest(rs.getObject("interest", String.class));
-                m.setJoinAt(rs.getObject("joinAt", LocalDateTime.class));
-            }
-            conn.close();
-            return m;
+            SqlSession sqlSession = MyBatisUtil.build().openSession(true);
+            Member member = sqlSession.selectOne("mappers.MemberinfoMapper.selectByNickname", nickname);
+            sqlSession.close();
+            return member;
         } catch (Exception e) {
             System.out.println("Error in select member by nickname : " + e);
             return null;
