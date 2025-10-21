@@ -18,7 +18,9 @@
         </environment>
     </environments>
     <mappers>
+<!--        <mapper resource="mappers/*.xml"/>-->
         <mapper resource="mappers/MemberinfoMapper.xml"/>
         <mapper resource="mappers/LoginHistoryMapper.xml"/>
+        <mapper resource="mappers/ArticleMapper.xml"/>
     </mappers>
 </configuration>

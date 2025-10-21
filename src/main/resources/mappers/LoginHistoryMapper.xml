@@ -5,11 +5,12 @@
 <mapper namespace="mappers.LoginHistoryMapper">
     <!--    <insert loginId="insertOne" parameterType="java.util.Map"> 으로 넘기기도 함 or 객체-->
     <insert id="insertOne" parameterType="com.example.app.vo.LoginUser">
-        insert into loginHistory(loginId, LoginIp) values(#{id},#{ip})
+        insert into loginHistory(loginId, LoginIp) values(#{loginId},#{loginIp})
     </insert>
     <select id="selectByLoginId" parameterType="java.lang.String" resultType="com.example.app.vo.LoginUser">
         select * from loginHistory where loginId=#{id}
     </select>
+
 
 
 </mapper>

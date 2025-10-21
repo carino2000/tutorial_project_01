@@ -1,9 +1,11 @@
 package com.example.app.util;
 
+import com.example.app.vo.Article;
 import com.example.app.vo.LoginUser;
 import com.example.app.vo.Member;
 import org.apache.ibatis.session.SqlSession;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -100,6 +102,10 @@ public class DatabaseUtil {
             case 506:
                 System.out.println("PW does not match");
                 mainError = "잘못된 비밀번호입니다.";
+                break;
+            case 507:
+                System.out.println("Article insert error");
+                mainError = "오류! Article 등록 실패";
                 break;
         }
         return mainError;
@@ -222,6 +228,38 @@ public class DatabaseUtil {
 
         } catch (Exception e) {
             System.out.println("Error in inserting login history : " + e);
+            return result;
+        }
+    }
+
+    //select * from loginHistory where loginId=?;
+    public static List<LoginUser> selectHistoryById(String id) {
+        List<LoginUser> list = null;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            list = session.selectList("mappers.LoginHistoryMapper.selectByLoginId", id);
+            session.close();
+            return list;
+
+        } catch (IOException e) {
+            System.out.println("Error in select login history : " + e);
+            return list;
+
+        }
+    }
+
+    //insert into article(writerId, topic, title, content) values(?,?,?,?);
+    public static int insertArticle(Article article) {
+        int result = 507;
+        try {
+            SqlSession sqlSession = MyBatisUtil.build().openSession(true);
+
+            result = sqlSession.insert("mappers.ArticleMapper.insertOne", article);
+            sqlSession.close();
+            return result;
+
+        } catch (Exception e) {
+            System.out.println("Error in insert Article : " + e);
             return result;
         }
     }
