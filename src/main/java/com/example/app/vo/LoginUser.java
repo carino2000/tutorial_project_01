@@ -1,30 +1,30 @@
 package com.example.app.vo;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@Setter
+@Getter
 public class LoginUser {
-    String id;
-    String ip;
+    int idx;
+    String loginId;
+    String loginIp;
+    LocalDateTime loginAt;
 
     public LoginUser() {
     }
 
-    public LoginUser(String id, String ip) {
-        this.id = id;
-        this.ip = ip;
+    public LoginUser(String loginId, String loginIp) {
+        this.loginId = loginId;
+        this.loginIp = loginIp;
     }
 
-    public String getId() {
-        return id;
+    public LoginUser(String loginId, String loginIp, LocalDateTime loginAt) {
+        this.loginId = loginId;
+        this.loginIp = loginIp;
+        this.loginAt = loginAt;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
 }

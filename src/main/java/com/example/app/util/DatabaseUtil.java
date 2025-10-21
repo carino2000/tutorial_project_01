@@ -31,19 +31,19 @@ public class DatabaseUtil {
     }
 
     public static boolean isNotValidId(String id) {
-        if (!(id.matches("[a-zA-Z0-9!@#$%^&*]{4,15}"))) {
-            return true;
-        } else {
+        if (id.matches("[a-zA-Z0-9!@#$%^&*]{4,15}")) {
             return false;
+        } else {
+            return true;
         }
     }
 
     public static boolean isNotValidPw(String pw) {
 
-        if (!(pw.matches("(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}"))) {
-            return true;
-        } else {
+        if (pw.matches("(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}")) {
             return false;
+        } else {
+            return true;
         }
 
         /*
@@ -74,7 +74,7 @@ public class DatabaseUtil {
         String mainError = null;
         switch (result) {
             case 500:
-                System.out.println("id duplicated");
+                System.out.println("loginId duplicated");
                 mainError = "중복되는 아이디가 존재합니다.";
                 break;
             case 501:
@@ -82,7 +82,7 @@ public class DatabaseUtil {
                 mainError = "중복되는 별명이 존재합니다.";
                 break;
             case 502:
-                System.out.println("id is Not ValidId");
+                System.out.println("loginId is Not ValidId");
                 mainError = "아이디를 조건에 맞게 입력해주세요.";
                 break;
             case 503:
@@ -106,7 +106,7 @@ public class DatabaseUtil {
     }
 
 
-    //insert into memberinfo(id, pw, email, agree, name, nickname, age, interest) values(?,?,?,?,?,?,?,?);
+    //insert into memberinfo(loginId, pw, email, agree, name, nickname, age, interest) values(?,?,?,?,?,?,?,?);
     public static int insertMember(Member member) {
         int result = 0;
         if (member == null) {
@@ -172,7 +172,7 @@ public class DatabaseUtil {
         }
     }
 
-    //select * from memberinfo where id=?;
+    //select * from memberinfo where loginId=?;
     public static Member selectMemberById(String id) {
         try {
             SqlSession sqlSession = MyBatisUtil.build().openSession(true);
@@ -180,7 +180,7 @@ public class DatabaseUtil {
             sqlSession.close();
             return member;
         } catch (Exception e) {
-            System.out.println("Error in select member by id : " + e);
+            System.out.println("Error in select member by loginId : " + e);
             return null;
         }
     }
@@ -198,7 +198,7 @@ public class DatabaseUtil {
         }
     }
 
-
+    //select * from memberinfo where loginId=? 사용해서 비밀번호 일치 여부 확인
     public static int login(String id, String pw) {
         Member member = selectMemberById(id);
         if (member == null) {
@@ -210,6 +210,7 @@ public class DatabaseUtil {
         }
     }
 
+    //insert into loginHistory(loginId,loginIp) values(?,?)사용해서 로그인 시간과 함께 insert ("constraint foreign key(loginId) references memberinfo(loginId)" - 연습)
     public static int insertLoginHistory(LoginUser user) {
         int result = 0;
         try {
@@ -224,5 +225,7 @@ public class DatabaseUtil {
             return result;
         }
     }
+
+
 
 }

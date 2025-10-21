@@ -1,8 +1,13 @@
 package com.example.app.vo;
 //Value Object
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class Member {
     String id;
     String pw;
@@ -48,78 +53,5 @@ public class Member {
         this.age = age;
         this.interest = interest;
     }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getPw() {
-        return pw;
-    }
-
-    public void setPw(String pw) {
-        this.pw = pw;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isAgree() {
-        return agree;
-    }
-
-    public void setAgree(boolean agree) {
-        this.agree = agree;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getInterest() {
-        return interest;
-    }
-
-    public void setInterest(String interest) {
-        this.interest = interest;
-    }
-
-    public LocalDateTime getJoinAt() {
-        return joinAt;
-    }
-
-    public void setJoinAt(LocalDateTime joinAt) {
-        this.joinAt = joinAt;
-    }
-
 
 }

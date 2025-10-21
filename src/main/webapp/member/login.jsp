@@ -9,62 +9,7 @@
 <html>
 <head>
     <title>커뮤니티</title>
-    <style>
-        body {
-            margin: 0px;
-        }
-
-        .signup-wrap {
-            margin: 6rem 0rem;
-            display: flex;
-            justify-content: center;
-        }
-
-        .signup {
-            max-width: 28rem;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .text-gray {
-            color: #8f8f8f
-        }
-
-        .mt-1 {
-            margin-top: 0.25rem;
-        }
-
-        .input {
-            width: 100%;
-            padding: 0.5rem 0.7rem;
-            border-radius: 0.375rem;
-            border-color: #8f8f8f;
-        }
-
-        .signup-form > div {
-            margin-top: 1.5rem;
-        }
-
-        .bt-submit {
-            width: 100%;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            border: none;
-            cursor: pointer;
-        }
-
-        .bt-submit:disabled{
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .bt-submit:hover:not(:disabled) {
-            background-color: #4f4f4f;
-            color: #ffffff;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body>
 <div class="signup-wrap">
@@ -79,7 +24,8 @@
             <div>
                 <label for="id"><small>아이디</small></label>
                 <div class="mt-1">
-                    <input type="text" class="input" name="id" id="id" onkeyup="updateButtonState()" required autofocus/>
+                    <input type="text" class="input" name="id" id="id" onkeyup="updateButtonState()" required
+                           autofocus/>
                 </div>
             </div>
             <div>
@@ -103,12 +49,12 @@
 
 
 <script>
-    function updateButtonState(){
-       const idValue = document.getElementById("id").value;
-       const pwValue = document.getElementById("pw").value;
-       if(idValue && pwValue){
-           document.getElementById("loginbt").disabled = false;
-       }
+    function updateButtonState() {
+        const idValue = document.getElementById("id").value;
+        const pwValue = document.getElementById("pw").value;
+        if (idValue && pwValue) {
+            document.getElementById("loginbt").disabled = false;
+        }
 
     }
 </script>

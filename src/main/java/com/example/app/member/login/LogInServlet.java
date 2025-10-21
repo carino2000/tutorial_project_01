@@ -28,7 +28,7 @@ public class LogInServlet extends HttpServlet {
         int result = DatabaseUtil.login(id, pw);
         if (result == 1) { //로그인 성공!
             LoginUser user = new LoginUser(id, ip);
-            DatabaseUtil.insertLoginHistory(user);
+            int r = DatabaseUtil.insertLoginHistory(user);
 
             req.getSession().setAttribute("logonUser", DatabaseUtil.selectMemberById(id));
 
