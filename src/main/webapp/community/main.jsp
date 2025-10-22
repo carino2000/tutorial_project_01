@@ -33,7 +33,7 @@
                 <div class="article-item">
                     <div style="display: flex; justify-content: space-between">
                         <div>
-                            <span class="article-topic text-gray">${one.topic}</span>
+                            <span class="article-topic text-gray">${one.prettyTopic}</span>
                             <span>${one.writerId}</span>
                             <span>&middot; ${one.prettyWroteAt}</span>
                         </div>

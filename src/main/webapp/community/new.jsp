@@ -36,6 +36,7 @@
                             <option value="life">사는얘기</option>
                             <option value="gathering">모임&스터디</option>
                             <option value="feedback">피드백</option>
+                            <option value="AI">AI</option>
                         </select>
                     </div>
                 </div>
