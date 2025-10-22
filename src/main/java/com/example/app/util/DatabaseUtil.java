@@ -276,8 +276,21 @@ public class DatabaseUtil {
         } catch (IOException e) {
             System.out.println("Error in select all Articles : " + e);
             return list;
-
         }
+    }
+
+    public static Article selectArticleByNo(String no) {
+        Article article = null;
+        try{
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            article = session.selectOne("mappers.ArticleMapper.selectByNo", Integer.parseInt(no));
+            session.close();
+            return article;
+        }catch(Exception e){
+            System.out.println("Error in select Article by no: " + e);
+            return null;
+        }
+
     }
 
 
