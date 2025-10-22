@@ -1,6 +1,7 @@
 package com.example.app.util;
 
 import com.example.app.vo.Article;
+import com.example.app.vo.ArticleLike;
 import com.example.app.vo.LoginUser;
 import com.example.app.vo.Member;
 import org.apache.ibatis.session.SqlSession;
@@ -106,6 +107,10 @@ public class DatabaseUtil {
             case 507:
                 System.out.println("Article insert error");
                 mainError = "오류! Article 등록 실패";
+                break;
+            case 508:
+                System.out.println("ArticleLike insert error");
+                mainError = "오류! ArticleLike 정보 추가 실패";
                 break;
         }
         return mainError;
@@ -281,16 +286,102 @@ public class DatabaseUtil {
 
     public static Article selectArticleByNo(String no) {
         Article article = null;
-        try{
+        try {
             SqlSession session = MyBatisUtil.build().openSession(true);
             article = session.selectOne("mappers.ArticleMapper.selectByNo", Integer.parseInt(no));
             session.close();
             return article;
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error in select Article by no: " + e);
             return null;
         }
 
+    }
+
+
+    public static void increaseViewCnt(String no) {
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            session.update("mappers.ArticleMapper.increaseViewCnt", Integer.parseInt(no));
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in increaseViewCnt : " + e);
+        }
+    }
+
+
+    public static void increaseLikeCnt(String no) {
+
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            session.update("mappers.ArticleMapper.increaseLikeCnt", Integer.parseInt(no));
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in increaseLikeCnt : " + e);
+        }
+    }
+
+    public static void decreaseLikeCnt(String no) {
+
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            session.update("mappers.ArticleMapper.decreaseLikeCnt", Integer.parseInt(no));
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in increaseLikeCnt : " + e);
+        }
+    }
+
+    public static int insertArticleLike(ArticleLike articleLike) {
+        int result = 508;
+        try {
+            SqlSession sqlSession = MyBatisUtil.build().openSession(true);
+
+            result = sqlSession.insert("mappers.ArticleLikeMapper.insertOne", articleLike);
+            sqlSession.close();
+            return result;
+
+        } catch (Exception e) {
+            System.out.println("Error in insert ArticleLike : " + e);
+            return result;
+        }
+    }
+
+    public static int countByArticleLike(ArticleLike articleLike) {
+        int result = 0;
+        try{
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            result = session.selectOne("mappers.ArticleLikeMapper.countByArticleLike", articleLike);
+            session.close();
+            return result;
+        }catch(Exception e){
+            System.out.println("Error in countByArticleLike: " + e);
+            return -1;
+        }
+    }
+
+//    public static ArticleLike selectByArticleLike(ArticleLike articleLike) {
+//        ArticleLike al = null;
+//        try {
+//            SqlSession session = MyBatisUtil.build().openSession(true);
+//            al = session.selectOne("mappers.ArticleLikeMapper.selectByArticleLike", articleLike);
+//            session.close();
+//            return articleLike;
+//        } catch (Exception e) {
+//            System.out.println("Error in selectByArticleLike: " + e);
+//            return null;
+//        }
+//    }
+
+    public static void deleteByArticleLike(ArticleLike articleLike) {
+
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            session.selectOne("mappers.ArticleLikeMapper.deleteByArticleLike", articleLike);
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in selectByArticleLike: " + e);
+        }
     }
 
 

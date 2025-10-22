@@ -43,7 +43,13 @@
                 <c:out value="${article.content}"/>
             </div>
             <div>
-                <button>👍</button>
+                <button onclick="reactionHandle(${auth})">
+                    ${alreadyLike ? '❤' : '🤍'}
+                </button>
+                <span> ${article.likeCnt}</span>
+                <form action="/article/reaction" method="post" style="display: none" id="reactionFrom">
+                    <input type="hidden" name="no" value="${article.no}"/>
+                </form>
             </div>
         </div>
         <div><!-- 댓글 영역 -->
@@ -58,5 +64,18 @@
 
 </div>
 
+
+<script>
+    function reactionHandle(auth){
+        if(auth){
+            document.getElementById("reactionFrom").submit();
+            // location.href="/article/reaction";
+        }else{
+            if(window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")){
+                location.href="/login";
+            }
+        }
+    }
+</script>
 </body>
 </html>
