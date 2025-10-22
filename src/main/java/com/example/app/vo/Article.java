@@ -2,8 +2,10 @@ package com.example.app.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 @Setter
 @Getter
@@ -40,5 +42,10 @@ public class Article {
         this.viewCnt = viewCnt;
         this.likeCnt = likeCnt;
         this.commentCnt = commentCnt;
+    }
+
+    public String getPrettyWroteAt(){
+        PrettyTime p = new PrettyTime(Locale.KOREA);
+        return p.format(this.wroteAt);
     }
 }

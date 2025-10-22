@@ -84,3 +84,17 @@ body {
     color: #ffffff;
 }
 
+
+.article-item{
+    padding: 0.375rem 0;
+    border-bottom: 1px solid #000000;
+}
+
+.article-topic{
+    display: inline-block;
+    padding: 0.125rem 0.625rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    color: #8f8f8f;
+}

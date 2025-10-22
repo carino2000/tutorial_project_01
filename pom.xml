@@ -18,6 +18,13 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.ocpsoft.prettytime/prettytime -->
+        <dependency>
+            <groupId>org.ocpsoft.prettytime</groupId>
+            <artifactId>prettytime</artifactId>
+            <version>5.0.9.Final</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok //자동 getter/setter-->
         <dependency>
             <groupId>org.projectlombok</groupId>

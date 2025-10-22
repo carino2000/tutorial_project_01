@@ -265,5 +265,20 @@ public class DatabaseUtil {
     }
 
 
+    public static List<Article> selectAllArticle() {
+        List<Article> list = null;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            list = session.selectList("mappers.ArticleMapper.selectAll");
+            session.close();
+            return list;
+
+        } catch (IOException e) {
+            System.out.println("Error in select all Articles : " + e);
+            return list;
+
+        }
+    }
+
 
 }
