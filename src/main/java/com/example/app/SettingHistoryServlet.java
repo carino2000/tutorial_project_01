@@ -21,7 +21,6 @@ public class SettingHistoryServlet extends HttpServlet {
         Member m = (Member)req.getSession().getAttribute("logonUser");
         List<LoginUser> list = DatabaseUtil.selectHistoryById(m.getId());
         req.setAttribute("list", list);
-        req.setAttribute("auth", true);
 
         req.getRequestDispatcher("/setting/history.jsp").forward(req, resp);
     }

@@ -34,6 +34,12 @@
                     <input type="password" class="input" name="pw" id="pw" onkeyup="updateButtonState()" required/>
                 </div>
             </div>
+            <div>
+                <div class="mt-1">
+                    <input type="checkbox" name="keepLogin" id="keepLogin" onchange="keepLoginConfirm()"/>
+                    <label for="keepLogin"><small>로그인 상태 유지</small></label>
+                </div>
+            </div>
 
             <div>
                 <button class="bt-submit" id="loginbt" disabled>로그인</button>
@@ -55,7 +61,14 @@
         if (idValue && pwValue) {
             document.getElementById("loginbt").disabled = false;
         }
+    }
 
+    function keepLoginConfirm(){
+        if(document.getElementById("keepLogin").checked){
+            if(!window.confirm("공용 PC에서는 사용을 삼가해주세요.")){
+                document.getElementById("keepLogin").checked = false;
+            }
+        }
     }
 </script>
 </body>

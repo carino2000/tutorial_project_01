@@ -16,12 +16,6 @@ public class CommunityServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if(req.getSession().getAttribute("logonUser") != null){
-            req.setAttribute("auth", true);
-        }else{
-            req.setAttribute("auth", false);
-        }
-
         List<Article> articles = DatabaseUtil.selectAllArticle();
 
         req.setAttribute("articles", articles);

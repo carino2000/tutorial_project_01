@@ -1,8 +1,11 @@
 package com.example.app;
 
+import com.example.app.util.DatabaseUtil;
 import com.example.app.util.MyBatisUtil;
+import com.example.app.vo.LoginUser;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,13 +20,6 @@ import java.util.Locale;
 public class IndexServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getSession().getAttribute("logonUser") == null){
-            req.setAttribute("auth", false);
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
-        }else{
-            req.setAttribute("auth", true);
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
-        }
-
+        req.getRequestDispatcher("/index.jsp").forward(req, resp);
     }
 }

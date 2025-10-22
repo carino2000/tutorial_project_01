@@ -105,6 +105,12 @@
                 </c:if>
             </div>
             <div>
+                <div class="mt-1">
+                    <input type="checkbox" name="keepLogin" id="keepLogin" onchange="keepLoginConfirm()"/>
+                    <label for="keepLogin"><small>로그인 상태 유지</small></label>
+                </div>
+            </div>
+            <div>
                 <button class="bt-submit">회원가입</button>
             </div>
         </form>
@@ -120,6 +126,15 @@
 
     </div>
 </div>
-`
+
+<script>
+    function keepLoginConfirm(){
+        if(document.getElementById("keepLogin").checked){
+            if(!window.confirm("공용 PC에서는 사용을 삼가해주세요.")){
+                document.getElementById("keepLogin").checked = false;
+            }
+        }
+    }
+</script>
 </body>
 </html>
