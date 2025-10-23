@@ -40,6 +40,12 @@ public class ArticleServlet extends HttpServlet {
                 req.setAttribute("alreadyLike", false);
             }
 
+            if(logonUser.getId().equals(found.getWriterId())){
+                req.setAttribute("owner", true);
+            }else{
+                req.setAttribute("owner", false);
+            }
+
             req.setAttribute("article", found);
             DatabaseUtil.increaseViewCnt(no);
             req.getRequestDispatcher("/community/article.jsp").forward(req, resp);

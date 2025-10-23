@@ -31,9 +31,12 @@
                         <span>${article.prettyWroteAt}</span> &middot;
                         <span>👁${article.viewCnt}</span>
                     </div>
-                    <div><!-- 스크랩, 즐찾 등 이미지 -->
-                        <button>📌</button>
-                    </div>
+                    <c:if test="${owner}">
+                        <div><!-- 스크랩, 즐찾 등 이미지 -->
+                            <a href="/article/edit?no=${article.no}"><button>수정:✂</button></a>
+                            <a href="/article/delete?no=${article.no}"><button>삭제:❌</button></a>
+                        </div>
+                    </c:if>
                 </div>
             </div>
             <div><!-- 타이틀 -->

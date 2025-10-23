@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.ArticleMapper">
 
-    <insert id="insertOne" parameterType="com.example.app.vo.Article">
+    <insert id="insertOne" parameterType="Article">
         insert into article(writerId, topic, title, content) values(#{writerId}, #{topic}, #{title}, #{content});
     </insert>
 
@@ -32,6 +32,15 @@
     <update id="decreaseLikeCnt" parameterType="int">
         update article set likeCnt=likeCnt-1 where no=${no};
     </update>
+    <update id="updateArticle" parameterType="Article">
+        update article set topic=#{topic}, title=#{title}, content=#{content} where no=#{no}
+    </update>
+
+
+
+    <delete id="deleteByArticleByNo" parameterType="int">
+        delete from article where no=#{no}
+    </delete>
 
 
 </mapper>

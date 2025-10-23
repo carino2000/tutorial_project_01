@@ -15,15 +15,14 @@ public class LogoutServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Cookie cookie = null;
-        Cookie[] cookies = req.getCookies();
+        Cookie[] cookies = req.getCookies() == null ? new Cookie[0] : req.getCookies();
         for(Cookie c : cookies){
             if(c.getName().equals("keepLogin")){
                 cookie = c;
+                cookie.setMaxAge(0);
+                resp.addCookie(cookie);
             }
         }
-        cookie.setMaxAge(0);
-
-        resp.addCookie(cookie);
         req.getSession().removeAttribute("logonUser");
         resp.sendRedirect("/index");
 

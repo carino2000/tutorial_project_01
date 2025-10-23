@@ -25,6 +25,14 @@ public class Article {
     public Article() {
     }
 
+    public Article(int no, String writerId, String topic, String title, String content) {
+        this.no = no;
+        this.writerId = writerId;
+        this.topic = topic;
+        this.title = title;
+        this.content = content;
+    }
+
     public Article(String writerId, String topic, String title, String content) {
         this.writerId = writerId;
         this.topic = topic;

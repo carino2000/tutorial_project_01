@@ -2,6 +2,7 @@ package com.example.app.listener;
 
 import com.example.app.util.DatabaseUtil;
 import com.example.app.vo.LoginUser;
+import com.example.app.vo.Member;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
@@ -42,6 +43,7 @@ public class LoginRestoreListener implements ServletRequestListener {
             req.setAttribute("auth", true);
         }
 
+        req.setAttribute("member", (Member)req.getSession().getAttribute("logonUser"));
 
     }
 }

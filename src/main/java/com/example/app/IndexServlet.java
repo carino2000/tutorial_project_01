@@ -3,6 +3,7 @@ package com.example.app;
 import com.example.app.util.DatabaseUtil;
 import com.example.app.util.MyBatisUtil;
 import com.example.app.vo.LoginUser;
+import com.example.app.vo.Member;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -20,6 +21,7 @@ import java.util.Locale;
 public class IndexServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         req.getRequestDispatcher("/index.jsp").forward(req, resp);
     }
 }

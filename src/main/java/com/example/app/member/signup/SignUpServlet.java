@@ -40,7 +40,7 @@ public class SignUpServlet extends HttpServlet {
         String mainError = "";
 
         if (result == 1) {
-            System.out.println("insert success");
+            System.out.println("member signup information insert success");
             req.setAttribute("nickname", nickname);
             req.getRequestDispatcher("/member/signup-success.jsp").forward(req, resp);
         } else {

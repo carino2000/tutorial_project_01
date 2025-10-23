@@ -298,6 +298,21 @@ public class DatabaseUtil {
 
     }
 
+    public static int updateArticle(Article article) {
+        int result = -1;
+        try {
+            SqlSession sqlSession = MyBatisUtil.build().openSession(true);
+
+            result = sqlSession.update("mappers.ArticleMapper.updateArticle", article);
+            sqlSession.close();
+            return result;
+
+        } catch (Exception e) {
+            System.out.println("Error in update Article : " + e);
+            return result;
+        }
+    }
+
 
     public static void increaseViewCnt(String no) {
         try {
@@ -349,12 +364,12 @@ public class DatabaseUtil {
 
     public static int countByArticleLike(ArticleLike articleLike) {
         int result = 0;
-        try{
+        try {
             SqlSession session = MyBatisUtil.build().openSession(true);
             result = session.selectOne("mappers.ArticleLikeMapper.countByArticleLike", articleLike);
             session.close();
             return result;
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error in countByArticleLike: " + e);
             return -1;
         }
@@ -373,16 +388,47 @@ public class DatabaseUtil {
 //        }
 //    }
 
-    public static void deleteByArticleLike(ArticleLike articleLike) {
-
+    public static int deleteByArticleLike(ArticleLike articleLike) {
+        int result = -1;
         try {
             SqlSession session = MyBatisUtil.build().openSession(true);
-            session.selectOne("mappers.ArticleLikeMapper.deleteByArticleLike", articleLike);
+            result = session.delete("mappers.ArticleLikeMapper.deleteByArticleLike", articleLike);
             session.close();
         } catch (Exception e) {
             System.out.println("Error in selectByArticleLike: " + e);
         }
+        return result;
     }
+
+    public static int deleteArticleLikeByArticleNo(int no) {
+        int result = -1;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            result = session.delete("mappers.ArticleLikeMapper.deleteByArticleNo", no);
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in deleteArticleLikeByArticleNo: " + e);
+        }
+        return result;
+    }
+
+
+    public static int deleteArticleByNo(int no) {
+        int result = -1;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            result = session.delete("mappers.ArticleMapper.deleteByArticleByNo", no);
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in deleteByArticleByNo: " + e);
+        }
+        return result;
+    }
+
+
+
+
+
 
 
 }

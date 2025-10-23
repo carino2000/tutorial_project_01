@@ -23,6 +23,10 @@
         delete from articleLike where memberId=#{memberId} and articleNo=#{articleNo}
     </delete>
 
+    <delete id="deleteByArticleNo" parameterType="int">
+        delete from articleLike where articleNo=${no}
+    </delete>
+
 <!--    <insert id="insertOne" parameterType="com.example.app.vo.Article">-->
 <!--        insert into article(writerId, topic, title, content) values(#{writerId}, #{topic}, #{title}, #{content});-->
 <!--    </insert>-->
