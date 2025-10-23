@@ -284,6 +284,21 @@ public class DatabaseUtil {
         }
     }
 
+    public static List<Article> selectArticlesByPage(int page) {
+        List<Article> list = null;
+        int offset = (page - 1) * 10;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            list = session.selectList("mappers.ArticleMapper.selectArticlesByPage", offset);
+            session.close();
+            return list;
+
+        } catch (IOException e) {
+            System.out.println("Error in selectArticlesByPage : " + e);
+            return list;
+        }
+    }
+
     public static Article selectArticleByNo(String no) {
         Article article = null;
         try {

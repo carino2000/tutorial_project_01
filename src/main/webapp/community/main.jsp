@@ -50,6 +50,17 @@
                     </div>
                 </div>
             </c:forEach>
+            <div style="padding: 1.5rem 0; margin-top: 2rem; text-align: center">
+                <form action="/community" method="post">
+                    <c:forEach var="i" begin="1" end="${maxPage}">
+                        <button
+                                type="submit"
+                                name="page"
+                                value="${i}"
+                                <c:if test="${i == currentPage}">style="font-weight: bold"</c:if>>${i}</button>
+                    </c:forEach>
+                </form>
+            </div>
         </div>
     </div>
     <div style="flex: 1">

@@ -31,11 +31,10 @@
                     <label>토픽</label>
                     <div>
                         <select name="topic" class="input-100">
-                            <option value="${article.topic}">${article.prettyTopic}</option>
-                            <option value="life">사는얘기</option>
-                            <option value="gathering">모임&스터디</option>
-                            <option value="feedback">피드백</option>
-                            <option value="AI">AI</option>
+                            <option value="life" ${article.topic == 'life' ? 'selected' : ''}>사는얘기</option>
+                            <option value="gathering" ${article.topic == 'gathering' ? 'selected' : ''}>모임&스터디</option>
+                            <option value="feedback" ${article.topic == 'feedback' ? 'selected' : ''}>피드백</option>
+                            <option value="AI" ${article.topic == 'AI' ? 'selected' : ''}>AI</option>
                         </select>
                     </div>
                 </div>
@@ -51,13 +50,14 @@
                     <label>본문</label>
                     <div>
                         <label>
-                            <textarea name="content" class="input-100" style="height: 300px; resize: none" >${article.content}</textarea>
+                            <textarea name="content" class="input-100"
+                                      style="height: 300px; resize: none">${article.content}</textarea>
                         </label>
                     </div>
                 </div>
                 <div style="display: flex; justify-content: space-between; margin-top: 50px">
                     <button type="reset">지우기</button>
-                    <button type="submit">등록하기</button>
+                    <button type="submit">수정하기</button>
                 </div>
             </form>
         </div>
