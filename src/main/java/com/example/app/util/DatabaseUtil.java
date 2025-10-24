@@ -386,6 +386,17 @@ public class DatabaseUtil {
     }
 
 
+    public static void increaseCommentCntByArticleNo(int no) {
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            session.update("mappers.ArticleMapper.increaseCommentCntByArticleNo", no);
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in increaseCommentCntByArticleNo : " + e);
+        }
+    }
+
+
     public static void increaseViewCnt(String no) {
         try {
             SqlSession session = MyBatisUtil.build().openSession(true);
@@ -498,9 +509,35 @@ public class DatabaseUtil {
     }
 
 
+    public static int insertComment(Comment comment) {
+        int result = -1;
+        try {
+            SqlSession sqlSession = MyBatisUtil.build().openSession(true);
+
+            result = sqlSession.insert("mappers.ArticleMapper.insertComment", comment);
+            increaseCommentCntByArticleNo(comment.getArticleNo());
+            sqlSession.close();
+            return result;
+
+        } catch (Exception e) {
+            System.out.println("Error in insertComment : " + e);
+            return result;
+        }
+    }
 
 
-
+    public static List<Comment> selectAllCommentsByArticleNo(int no){
+        List<Comment> list = null;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            list = session.selectList("mappers.ArticleMapper.selectAllComments", no);
+            session.close();
+            return list;
+        } catch (Exception e) {
+            System.out.println("Error in selectAllCommentsByArticleNo: " + e);
+            return null;
+        }
+    }
 
 
 }

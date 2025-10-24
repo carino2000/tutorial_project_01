@@ -14,6 +14,7 @@
 
 </head>
 <body>
+
 <%@include file="/template/header.jspf" %>
 <div class="main">
     <div style="flex:1">
@@ -33,8 +34,12 @@
                     </div>
                     <c:if test="${owner}">
                         <div><!-- 스크랩, 즐찾 등 이미지 -->
-                            <a href="/article/edit?no=${article.no}"><button>수정:✂</button></a>
-                            <a href="/article/delete?no=${article.no}"><button>삭제:❌</button></a>
+                            <a href="/article/edit?no=${article.no}">
+                                <button>수정:✂</button>
+                            </a>
+                            <a href="/article/delete?no=${article.no}">
+                                <button>삭제:❌</button>
+                            </a>
                         </div>
                     </c:if>
                 </div>
@@ -55,8 +60,26 @@
                 </form>
             </div>
         </div>
-        <div><!-- 댓글 영역 -->
-            <span style=""></span>
+        <div style="margin-top: 5rem"><!-- 댓글 영역 -->
+
+            <div>
+                <c:if test="${auth}">
+                    <p>${logonUser.id}님의 생각을 남겨주세요</p>
+                </c:if>
+
+                <form action="/article" method="post">
+                    <input type="text" name="comments" id="comments" class="input" style="width: 500px"
+                           placeholder="댓글을 남겨주세요">
+                    <input type="hidden" name="articleNo" value="${article.no}">
+                    <button onclick="reactionHandle(${auth})">작성하기</button>
+                </form>
+            </div>
+
+            <ul>
+                <c:forEach items="${comments}" var="c">
+                    <li>${c.writerId} : ${c.comments} - (${c.writingTime})</li>
+                </c:forEach>
+            </ul>
         </div>
 
     </div>
@@ -69,16 +92,29 @@
 
 
 <script>
-    function reactionHandle(auth){
-        if(auth){
+    const input = document.getElementById("comments");
+    <c:choose>
+    <c:when test="${auth}">
+        input.placeholder = "댓글을 남겨주세요"
+        input.readOnly = false;
+    </c:when>
+    <c:otherwise>
+        input.placeholder = "로그인이 필요한 기능입니다"
+        input.readOnly = true;
+    </c:otherwise>
+    </c:choose>
+
+    function reactionHandle(auth) {
+        if (auth) {
             document.getElementById("reactionFrom").submit();
             // location.href="/article/reaction";
-        }else{
-            if(window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")){
-                location.href="/login";
+        } else {
+            if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+                location.href = "/login";
             }
         }
     }
+
 </script>
 </body>
 </html>

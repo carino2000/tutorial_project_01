@@ -111,7 +111,7 @@
                 </div>
             </div>
             <div>
-                <button class="bt-submit">회원가입</button>
+                <button class="bt-submit">로그인</button>
             </div>
         </form>
         <p class="text-center">

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -6,11 +7,14 @@
   Time: 오후 3:50
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
+    <meta charset="UTF-8">
+
     <title>가제 - 커뮤니티</title>
     <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
 </head>
 <body>
 <%@include file="/template/header.jspf" %>
@@ -79,13 +83,17 @@
         </div>
     </div>
     <div style="flex: 1">
-        <h3>게시글 수 Top5</h3>
+        <h3>Top Writers</h3>
         <ul>
-            <c:forEach var="one" items="${topPost}">
+            <c:forEach var="one" items="${topPost}" varStatus="s">
                 <li style="margin-top: 1rem">
-                    <a href="">${one.writerId}</a>
+                        ${s.count}등 : <a href="">${one.writerId}</a> - <i class="fa-solid fa-medal"></i>${one.cnt}
+<%--                    <c:choose>--%>
+<%--                        <c:when test="${s.count == 1}"><i class="fa-solid fa-medal"></i></c:when>--%>
+<%--                        <c:when test="${s.count == 2}"><i class="fa-solid fa-medal"></i></c:when>--%>
+<%--                        <c:when test="${s.count == 3}"><i class="fa-solid fa-medal"></i></c:when>--%>
+<%--                    </c:choose>--%>
                 </li>
-
             </c:forEach>
         </ul>
     </div>

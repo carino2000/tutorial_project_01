@@ -7,6 +7,9 @@
     <insert id="insertOne" parameterType="Article">
         insert into article(writerId, topic, title, content) values(#{writerId}, #{topic}, #{title}, #{content});
     </insert>
+    <insert id="insertComment" parameterType="Comment">
+        insert into articleComments(articleNo, writerId, comments) values(#{articleNo}, #{writerId}, #{comments});
+    </insert>
 
 
 
@@ -42,9 +45,15 @@
         select writerId, count(*) as cnt from article group by writerId order by cnt desc limit 5;
     </select>
 
+    <select id="selectAllComments" parameterType="int" resultType="Comment">
+        select * from articleComments where articleNo=#{articleNo} order by writingTime desc;
+    </select>
 
 
 
+    <update id="increaseCommentCntByArticleNo" parameterType="int">
+        update article set commentCnt=commentCnt+1 where no=${no};
+    </update>
     <update id="increaseViewCnt" parameterType="int">
         update article set viewCnt=viewCnt+1 where no=${no};
     </update>
