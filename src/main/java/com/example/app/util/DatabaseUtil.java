@@ -1,9 +1,6 @@
 package com.example.app.util;
 
-import com.example.app.vo.Article;
-import com.example.app.vo.ArticleLike;
-import com.example.app.vo.LoginUser;
-import com.example.app.vo.Member;
+import com.example.app.vo.*;
 import org.apache.ibatis.session.SqlSession;
 
 import java.io.IOException;
@@ -14,6 +11,7 @@ import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseUtil {
 
@@ -313,6 +311,7 @@ public class DatabaseUtil {
 
     }
 
+    //update article set topic=#{topic}, title=#{title}, content=#{content} where no=#{no}
     public static int updateArticle(Article article) {
         int result = -1;
         try {
@@ -325,6 +324,64 @@ public class DatabaseUtil {
         } catch (Exception e) {
             System.out.println("Error in update Article : " + e);
             return result;
+        }
+    }
+
+    // select * from article where content like '%#{}%' order by wroteAt desc limit 5 offset 5;
+    public static List<Article> selectByKeyword(String keyword, int page) {//수정중
+        List<Article> list = null;
+        int offset = (page - 1) * 10;
+        Map map = Map.of("keyword", keyword, "offset", offset);
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            list = session.selectList("mappers.ArticleMapper.selectByKeyword", map);
+            session.close();
+            return list;
+        } catch (Exception e) {
+            System.out.println("Error in selectByKeyword: " + e);
+            return null;
+        }
+
+    }
+
+
+    public static List<Article> selectByLike(String keyword){
+        List<Article> list = null;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            list = session.selectList("mappers.ArticleMapper.selectByLike", keyword);
+            session.close();
+            return list;
+        } catch (Exception e) {
+            System.out.println("Error in selectByKeyword: " + e);
+            return null;
+        }
+    }
+
+    public static List<Article> selectTop5Likes(int day) {
+        List<Article> list = null;
+        LocalDateTime date = LocalDateTime.now().minusDays(day);
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            list = session.selectList("mappers.ArticleMapper.selectTop5Likes", date);
+            session.close();
+            return list;
+        } catch (Exception e) {
+            System.out.println("Error in selectTop5Likes: " + e);
+            return null;
+        }
+    }
+
+    public static List<PostById> countPostTop5ById() { //수정
+        List<PostById> list = null;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            list = session.selectList("mappers.ArticleMapper.countPost");
+            session.close();
+            return list;
+        } catch (Exception e) {
+            System.out.println("Error in countPostById: " + e);
+            return list;
         }
     }
 

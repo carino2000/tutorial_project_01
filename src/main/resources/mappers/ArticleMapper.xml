@@ -25,6 +25,24 @@
         select * from article where no=#{no}
     </select>
 
+    <select id="selectByKeyword" parameterType="map" resultType="Article">
+        select * from article where title like #{keyword} or content like #{keyword} order by wroteAt desc limit 10 offset #{offset};
+    </select>
+    <select id="selectByLike" resultType="Article" parameterType="string">
+        select * from article where title like #{keyword} or content like #{keyword} order by wroteAt desc
+    </select>
+    <select id="selectTop5Likes" resultType="Article" parameterType="java.time.LocalDateTime">
+        select * from article
+            where likeCnt > 0
+            and wroteAt > #{date}
+            ORDER BY likeCnt DESC LIMIT 5;
+    </select>
+
+    <select id="countPost" resultType="PostById">
+        select writerId, count(*) as cnt from article group by writerId order by cnt desc limit 5;
+    </select>
+
+
 
 
     <update id="increaseViewCnt" parameterType="int">

@@ -107,3 +107,9 @@ body {
 .article-link:hover{
     color: #79c0f8;
 }
+
+.active-page-link{
+    color: #79c0f8;
+    font-weight: bold;
+    text-decoration: none;
+}

@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="header"> <%--헤더--%>
+<div class="header" > <%--헤더--%>
     <div>
         로고
     </div>
@@ -18,7 +18,7 @@
     <c:choose>
         <c:when test="${auth}">
             <div>
-                ${member.id}님 
+                ${member.id}님
                 <button>스크랩</button>
                 <button>알림</button>
                 <button>설정</button>

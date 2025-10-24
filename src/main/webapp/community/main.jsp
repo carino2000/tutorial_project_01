@@ -14,11 +14,19 @@
 </head>
 <body>
 <%@include file="/template/header.jspf" %>
->
+
 
 <div class="main">
     <div style="flex: 1">
-        -- 인기 유저
+        <h3>에디터 초이스</h3>
+        <ul>
+            <c:forEach var="one" items="${topLikes}">
+                <li style="margin-top: 1rem">
+                    <a href="/article?no=${one.no}">${one.title}</a>
+                </li>
+
+            </c:forEach>
+        </ul>
     </div>
     <div style="flex: 4"> <!-- 중앙 -->
         <div><!-- 이미지 베너 -->
@@ -51,20 +59,35 @@
                 </div>
             </c:forEach>
             <div style="padding: 1.5rem 0; margin-top: 2rem; text-align: center">
-                <form action="/community" method="post">
+                <form action="/community">
+                    <input type="hidden" name="keyword" value="${keyword}">
                     <c:forEach var="i" begin="1" end="${maxPage}">
                         <button
                                 type="submit"
                                 name="page"
                                 value="${i}"
-                                <c:if test="${i == currentPage}">style="font-weight: bold"</c:if>>${i}</button>
+                                class=${i == currentPage ? 'active-page-link' : ''}>${i}</button>
                     </c:forEach>
+                </form>
+            </div>
+            <div>
+                <form action="/community">
+                    <input type="hidden" value="${keyword}"/>
+                    <input type="text" name="keyword" class="input" style="width: 200px" placeholder="커뮤니티 내에서 검색">
                 </form>
             </div>
         </div>
     </div>
     <div style="flex: 1">
-        -- 인기글
+        <h3>게시글 수 Top5</h3>
+        <ul>
+            <c:forEach var="one" items="${topPost}">
+                <li style="margin-top: 1rem">
+                    <a href="">${one.writerId}</a>
+                </li>
+
+            </c:forEach>
+        </ul>
     </div>
 
 
