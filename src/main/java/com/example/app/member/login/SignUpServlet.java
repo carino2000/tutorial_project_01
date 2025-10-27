@@ -1,7 +1,6 @@
-package com.example.app.member.signup;
+package com.example.app.member.login;
 
 import com.example.app.util.DatabaseUtil;
-import com.example.app.util.MyBatisUtil;
 import com.example.app.vo.Member;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -9,7 +8,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.ibatis.session.SqlSession;
 
 import java.io.IOException;
 

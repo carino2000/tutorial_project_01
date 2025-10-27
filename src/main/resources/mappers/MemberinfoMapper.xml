@@ -20,4 +20,17 @@
     </select>
 
 
+    <update id="updateMemberInfo" parameterType="Member">
+        update memberinfo set name=#{name}, nickname=#{nickname}, email=#{email}, age=#{age}, interest=#{interest} where id=#{id}
+    </update>
+    <update id="updateMemberPw" parameterType="map">
+        update memberinfo set pw=#{newPw} where id=#{id}
+    </update>
+
+
+    <delete id="deleteMemberInfoById" parameterType="string">
+        delete from memberinfo where id=#{id}
+    </delete>
+
+
 </mapper>

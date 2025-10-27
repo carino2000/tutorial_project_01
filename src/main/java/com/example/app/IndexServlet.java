@@ -22,6 +22,10 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        if(req.getParameter("msg") != null){
+            int msg = Integer.parseInt(req.getParameter("msg"));
+            req.setAttribute("msg", msg);
+        }
         req.getRequestDispatcher("/index.jsp").forward(req, resp);
     }
 }

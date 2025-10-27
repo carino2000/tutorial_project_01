@@ -46,7 +46,14 @@
     </select>
 
     <select id="selectAllComments" parameterType="int" resultType="Comment">
-        select * from articleComments where articleNo=#{articleNo} order by writingTime desc;
+        select * from articleComments where articleNo=#{articleNo} order by writingTime asc ;
+    </select>
+    <select id="selectCommentsById" parameterType="string" resultType="Comment">
+        select * from articleComments where writerId=#{id};
+    </select>
+
+    <select id="selectArticlesById" resultType="Article" parameterType="string">
+        select * from article where writerId=#{id} order by wroteAt desc;
     </select>
 
 
@@ -71,6 +78,18 @@
 
     <delete id="deleteByArticleByNo" parameterType="int">
         delete from article where no=#{no}
+    </delete>
+
+    <delete id="deleteCommentsByArticleNo" parameterType="int">
+        delete from articleComments where articleNo=#{no}
+    </delete>
+
+    <delete id="deleteCommentsById" parameterType="string">
+        delete from articleComments where writerId=#{id}
+    </delete>
+
+    <delete id="deleteArticleById" parameterType="string">
+        delete from article where writerId=#{id}
     </delete>
 
 

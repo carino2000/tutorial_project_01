@@ -110,6 +110,14 @@ public class DatabaseUtil {
                 System.out.println("ArticleLike insert error");
                 mainError = "오류! ArticleLike 정보 추가 실패";
                 break;
+            case 509:
+                System.out.println("password mismatch");
+                mainError = "현재 비밀번호가 일치하지 않습니다.";
+                break;
+            case 510:
+                System.out.println("password same");
+                mainError = "새로운 비밀번호가 기존 비밀번호와 동일합니다.";
+                break;
         }
         return mainError;
     }
@@ -178,6 +186,38 @@ public class DatabaseUtil {
         } catch (Exception e) {
             System.out.println("Error in select all member : " + e);
             return new ArrayList<Member>();
+        }
+    }
+
+    //update memberinfo set name=#{name}, nickname=#{nickname}, email=#{email}, age=#{age}, interest=#{interest} where id=#{id}
+    public static int updateMemberInfo(Member m) {
+        int result = -1;
+        try {
+            SqlSession sqlSession = MyBatisUtil.build().openSession(true);
+
+            result = sqlSession.update("mappers.MemberinfoMapper.updateMemberInfo", m);
+            sqlSession.close();
+            return result;
+
+        } catch (Exception e) {
+            System.out.println("Error in updateMemberInfo : " + e);
+            return result;
+        }
+    }
+
+    //update memberinfo set pw=#{newPw} where id=#{id}
+    public static int updateMemberPw(Map m) {
+        int result = -1;
+        try {
+            SqlSession sqlSession = MyBatisUtil.build().openSession(true);
+
+            result = sqlSession.update("mappers.MemberinfoMapper.updateMemberPw", m);
+            sqlSession.close();
+            return result;
+
+        } catch (Exception e) {
+            System.out.println("Error in updateMemberPw : " + e);
+            return result;
         }
     }
 
@@ -251,6 +291,42 @@ public class DatabaseUtil {
         }
     }
 
+
+    public static List<LoginUser> selectHistoryByIdAndPage(String id, int page) {
+        List<LoginUser> list = null;
+        int offset = (page - 1) * 20;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+
+            Map map = Map.of("id", id, "offset", offset);
+            list = session.selectList("mappers.LoginHistoryMapper.selectByLoginIdAndPage", map);
+            session.close();
+            return list;
+
+        } catch (IOException e) {
+            System.out.println("Error in select login history : " + e);
+            return list;
+
+        }
+    }
+
+
+    public static List<LikedArticle> selectArticleLikeAndArticleById(String id) {
+        List<LikedArticle> list = null;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+
+            list = session.selectList("mappers.ArticleLikeMapper.selectArticleLikeAndArticleById", id);
+            session.close();
+            return list;
+
+        } catch (IOException e) {
+            System.out.println("Error in selectArticleLikeAndArticleById : " + e);
+            return list;
+
+        }
+    }
+
     //insert into article(writerId, topic, title, content) values(?,?,?,?);
     public static int insertArticle(Article article) {
         int result = 507;
@@ -267,7 +343,7 @@ public class DatabaseUtil {
         }
     }
 
-
+    //select * from article order by wroteAt desc
     public static List<Article> selectAllArticle() {
         List<Article> list = null;
         try {
@@ -282,6 +358,7 @@ public class DatabaseUtil {
         }
     }
 
+    //select * from article order by wroteAt desc limit 10 offset #{offset}
     public static List<Article> selectArticlesByPage(int page) {
         List<Article> list = null;
         int offset = (page - 1) * 10;
@@ -297,6 +374,7 @@ public class DatabaseUtil {
         }
     }
 
+    //select * from article where no=#{no}
     public static Article selectArticleByNo(String no) {
         Article article = null;
         try {
@@ -310,6 +388,21 @@ public class DatabaseUtil {
         }
 
     }
+
+    //select * from article where writerId='#{id}' order by wroteAt desc;
+    public static List<Article> selectArticlesById(String id) {
+        List<Article> list = null;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            list = session.selectList("mappers.ArticleMapper.selectArticlesById", id);
+            session.close();
+            return list;
+        } catch (Exception e) {
+            System.out.println("Error in selectArticlesById: " + e);
+            return null;
+        }
+    }
+
 
     //update article set topic=#{topic}, title=#{title}, content=#{content} where no=#{no}
     public static int updateArticle(Article article) {
@@ -345,7 +438,7 @@ public class DatabaseUtil {
     }
 
 
-    public static List<Article> selectByLike(String keyword){
+    public static List<Article> selectByLike(String keyword) {
         List<Article> list = null;
         try {
             SqlSession session = MyBatisUtil.build().openSession(true);
@@ -526,7 +619,7 @@ public class DatabaseUtil {
     }
 
 
-    public static List<Comment> selectAllCommentsByArticleNo(int no){
+    public static List<Comment> selectAllCommentsByArticleNo(int no) {
         List<Comment> list = null;
         try {
             SqlSession session = MyBatisUtil.build().openSession(true);
@@ -537,6 +630,112 @@ public class DatabaseUtil {
             System.out.println("Error in selectAllCommentsByArticleNo: " + e);
             return null;
         }
+    }
+
+
+    public static int deleteArticleLikeById(String id) {
+        int result = -1;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            result = session.delete("mappers.ArticleLikeMapper.deleteArticleLikeById", id);
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in deleteArticleLikeById: " + e);
+        }
+        return result;
+    }
+
+
+    public static int deleteCommentsByArticleNo(int no) {
+        int result = -1;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            result = session.delete("mappers.ArticleMapper.deleteCommentsByArticleNo", no);
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in deleteCommentsByArticleNo: " + e);
+        }
+        return result;
+    }
+
+    public static int deleteLoginHistoryById(String id) {
+        int result = -1;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            result = session.delete("mappers.LoginHistoryMapper.deleteLoginHistoryById", id);
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in deleteLoginHistoryById: " + e);
+        }
+        return result;
+    }
+
+
+    public static int deleteMemberInfoById(String id) {
+        int result = -1;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            result = session.delete("mappers.MemberinfoMapper.deleteMemberInfoById", id);
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in deleteMemberInfoById: " + e);
+        }
+        return result;
+    }
+
+    public static List<Comment> selectCommentsById(String id) {
+        List<Comment> list = null;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            list = session.selectList("mappers.ArticleMapper.selectCommentsById", id);
+            session.close();
+            return list;
+        } catch (Exception e) {
+            System.out.println("Error in selectCommentsById: " + e);
+            return null;
+        }
+    }
+
+
+    public static int deleteCommentsById(String id) {
+        int result = -1;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            result = session.delete("mappers.ArticleMapper.deleteCommentsById", id);
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in deleteCommentsById: " + e);
+        }
+        return result;
+    }
+
+
+    public static int deleteArticleById(String id) {
+        int result = -1;
+        try {
+            SqlSession session = MyBatisUtil.build().openSession(true);
+            result = session.delete("mappers.ArticleMapper.deleteArticleById", id);
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error in deleteArticleById: " + e);
+        }
+        return result;
+    }
+
+
+    public static void deleteAllMemberInfoById(String id) {
+        deleteArticleLikeById(id);
+        deleteCommentsById(id);
+        List<Article> articles = selectArticlesById(id);
+        for (Article a : articles) {
+            deleteCommentsByArticleNo(a.getNo());
+            deleteArticleLikeByArticleNo(a.getNo());
+        }
+
+        deleteArticleById(id);
+        deleteLoginHistoryById(id);
+        deleteMemberInfoById(id);
+
     }
 
 

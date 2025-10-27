@@ -23,4 +23,6 @@ public class ArticleLike {
         this.memberId = memberId;
         this.idx = idx;
     }
+
+
 }

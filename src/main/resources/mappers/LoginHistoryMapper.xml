@@ -4,13 +4,19 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.LoginHistoryMapper">
     <!--    <insert loginId="insertOne" parameterType="java.util.Map"> 으로 넘기기도 함 or 객체-->
-    <insert id="insertOne" parameterType="com.example.app.vo.LoginUser">
-        insert into loginHistory(loginId, LoginIp) values(#{loginId},#{loginIp})
+    <insert id="insertOne" parameterType="LoginUser">
+        insert into loginHistory(loginId, loginIp) values(#{loginId},#{loginIp})
     </insert>
-    <select id="selectByLoginId" parameterType="java.lang.String" resultType="com.example.app.vo.LoginUser">
-        select * from loginHistory where loginId=#{id}
+    <select id="selectByLoginId" parameterType="string" resultType="LoginUser">
+        select * from loginHistory where loginId=#{id} order by loginAt desc
+    </select>
+    <select id="selectByLoginIdAndPage" parameterType="map" resultType="LoginUser">
+        select * from loginHistory where loginId=#{id} order by loginAt desc limit 20 offset #{offset}
     </select>
 
+    <delete id="deleteLoginHistoryById" parameterType="string">
+        delete from loginHistory where loginId=#{id}
+    </delete>
 
 
 </mapper>

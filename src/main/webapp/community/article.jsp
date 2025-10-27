@@ -77,7 +77,7 @@
 
             <ul>
                 <c:forEach items="${comments}" var="c">
-                    <li>${c.writerId} : ${c.comments} - (${c.writingTime})</li>
+                    <li>${c.writerId} : ${c.comments} - (${c.prettyWritingTime})</li>
                 </c:forEach>
             </ul>
         </div>
@@ -95,12 +95,12 @@
     const input = document.getElementById("comments");
     <c:choose>
     <c:when test="${auth}">
-        input.placeholder = "댓글을 남겨주세요"
-        input.readOnly = false;
+    input.placeholder = "댓글을 남겨주세요"
+    input.readOnly = false;
     </c:when>
     <c:otherwise>
-        input.placeholder = "로그인이 필요한 기능입니다"
-        input.readOnly = true;
+    input.placeholder = "로그인이 필요한 기능입니다"
+    input.readOnly = true;
     </c:otherwise>
     </c:choose>
 

@@ -11,47 +11,58 @@
     <select id="countByArticleLike" parameterType="ArticleLike" resultType="int">
         select count(*) from articleLike where memberId=#{memberId} and articleNo=#{articleNo}
     </select>
-<!--    <select id="countByMap" parameterType="Map" resultType="int">-->
-<!--        select count(*) from articleLike where memberId=#{memberId} and articleNo=#{articleNo}-->
-<!--    </select>-->
-<!--    <select id="selectByArticleLike" parameterType="ArticleLike" resultType="ArticleLike">-->
-<!--        select * from articleLike where memberId=#{memberId} and articleNo=#{articleNo}-->
-<!--    </select>-->
+
+    <select id="selectArticleLikeAndArticleById" parameterType="string" resultType="LikedArticle">
+<!--        select articleLike.memberId, article.no, article.writerId, article.topic, article.title, article.content,-->
+<!--        article.wroteAt-->
+<!--        from articleLike join article on articleLike.articleNo = article.no where articleLike.memberId=#{id} order by no-->
+<!--        desc;-->
+        select * from articleLike join article on articleLike.articleNo = article.no where articleLike.memberId=#{id};
+    </select>
+    <!--    <select id="countByMap" parameterType="Map" resultType="int">-->
+    <!--        select count(*) from articleLike where memberId=#{memberId} and articleNo=#{articleNo}-->
+    <!--    </select>-->
+    <!--    <select id="selectByArticleLike" parameterType="ArticleLike" resultType="ArticleLike">-->
+    <!--        select * from articleLike where memberId=#{memberId} and articleNo=#{articleNo}-->
+    <!--    </select>-->
 
 
     <delete id="deleteByArticleLike" parameterType="ArticleLike">
         delete from articleLike where memberId=#{memberId} and articleNo=#{articleNo}
     </delete>
 
+
     <delete id="deleteByArticleNo" parameterType="int">
         delete from articleLike where articleNo=${no}
     </delete>
 
-<!--    <insert id="insertOne" parameterType="com.example.app.vo.Article">-->
-<!--        insert into article(writerId, topic, title, content) values(#{writerId}, #{topic}, #{title}, #{content});-->
-<!--    </insert>-->
+    <delete id="deleteArticleLikeById" parameterType="string">
+        delete from articleLike where memberId=#{id}
+    </delete>
 
 
+    <!--    <insert id="insertOne" parameterType="com.example.app.vo.Article">-->
+    <!--        insert into article(writerId, topic, title, content) values(#{writerId}, #{topic}, #{title}, #{content});-->
+    <!--    </insert>-->
 
 
-<!--    <select id="selectAll" resultType="Article">-->
-<!--        select * from article order by wroteAt desc-->
-<!--    </select>-->
-<!--    <select id="selectByTopic" resultType="Article" parameterType="string">-->
-<!--        select * from article where topic=#{topic}-->
-<!--    </select>-->
-<!--    <select id="selectByNo" resultType="Article" parameterType="int">-->
-<!--        select * from article where no=#{no}-->
-<!--    </select>-->
+    <!--    <select id="selectAll" resultType="Article">-->
+    <!--        select * from article order by wroteAt desc-->
+    <!--    </select>-->
+    <!--    <select id="selectByTopic" resultType="Article" parameterType="string">-->
+    <!--        select * from article where topic=#{topic}-->
+    <!--    </select>-->
+    <!--    <select id="selectByNo" resultType="Article" parameterType="int">-->
+    <!--        select * from article where no=#{no}-->
+    <!--    </select>-->
 
 
-
-<!--    <update id="increaseViewCnt" parameterType="int">-->
-<!--        update article set viewCnt=viewCnt+1 where no=${no};-->
-<!--    </update>-->
-<!--    <update id="increaseLikeCnt" parameterType="int">-->
-<!--        update article set likeCnt=likeCnt+1 where no=${no};-->
-<!--    </update>-->
+    <!--    <update id="increaseViewCnt" parameterType="int">-->
+    <!--        update article set viewCnt=viewCnt+1 where no=${no};-->
+    <!--    </update>-->
+    <!--    <update id="increaseLikeCnt" parameterType="int">-->
+    <!--        update article set likeCnt=likeCnt+1 where no=${no};-->
+    <!--    </update>-->
 
 
 </mapper>
